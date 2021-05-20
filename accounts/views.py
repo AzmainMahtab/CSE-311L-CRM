@@ -42,13 +42,23 @@ def products (request):
         form.save()
         return redirect('products')
 
-def customer (request):
+def customers (request):
     if request.method == 'GET':
         customers = Customer.objects.all()
         form = CustomerForm(request.POST)
-        return render(request,"accounts/customer.html",{'form': form, 'customers': customers})
+        return render(request,"accounts/customers.html",{'form': form, 'customers': customers})
 
     else:
         form = CustomerForm(request.POST)
         form.save()
-        return redirect('customer')
+        return redirect('customers')
+
+def customer (request, pk):
+    customer = Customer.objects.get(id=pk)
+    orders = customer.order_set.all()
+
+    context = {
+        'customer': customer,
+        'order': orders,
+        }
+    return render(request,'accounts/customer.html', context)

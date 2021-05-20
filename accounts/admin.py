@@ -6,6 +6,9 @@ from .models import Order, Product, Customer
 class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
 
+class OrderAdmin(admin.ModelAdmin):
+    readonly_fields = ('date',)
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Customer)
-admin.site.register(Order)
+admin.site.register(Order,OrderAdmin)

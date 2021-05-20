@@ -2,28 +2,25 @@
 {% load static %}
 {% block content %}
       <!--GENERAL INFO STARTS-->
-
       <div class="container" id="gereral-info">
         <div class="row">
             <div class="col-sm-4">
               <div class="card">
                 <div class="card-body">
-                    <form action="{% url 'customer' %}" method="POST">
-                        <div class="form-group">
-                          {% csrf_token %}
-                          {{ form.as_p }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Customer</button>
-                      </form>
+                  <h5 class="card-title">Customer Name: {{customer.name}}</h5>
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-outline-warning" type="button">Update Info</button>
+                    <button class="btn btn-outline-danger" type="button">Remove Customer</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Mayer Dua General Store</h5>
-                  <p class="card-text">Email: info@maerydua.com</p>
-                  <p class="card-text">Phone: 08817284629374</p>
+                  <h5 class="card-title">Customer Info</h5>
+                  <p class="card-text">Email: {{customer.email}}</p>
+                  <p class="card-text">Phone:{{customer.phone}}</p>
                 </div>
               </div>
             </div>
@@ -42,24 +39,26 @@
       <!--CUSTOMER PRODUCTS-->
       <div class="col-sm-12" id="order-table">
         <center>
-            <h2>Customer Table</h2>
+            <h2>Products For The Customer</h2>
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Customer Nmae</th>
-                  <th>Phone</th>
-                  <th>E-mail</th>
+                  <th>Product</th>
+                  <th>Date Ordered</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                  <th>Remove</th>
                 </tr>
               </thead>
               <tbody>
-                {% for customer in customers %}
-                <tr>
-                  <td>{{ customer.name }}</td>
-                  <td>{{ customer.phone }}</td>
-                  <td>{{ customer.email }}</td>
-                  <td><a href="#" class="btn btn-warning">Update</a></td>
-                  <td><a href="#" class="btn btn-danger">Remove</a></td>
-                </tr>
+                {% for order in orders %}
+                  <tr>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.status }}</td>
+                    <td><a href="#" class="btn btn-warning">Update</a></td>
+                    <td><a href="#" class="btn btn-danger">Remove</a></td>
+                  </tr>
                 {% endfor %}
               </tbody>
             </table>
