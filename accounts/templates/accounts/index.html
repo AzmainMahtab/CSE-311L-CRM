@@ -10,7 +10,7 @@
               <div class="card alert alert-primary">
                 <div class="card-body">
                   <h5 class="card-title">Total Orders</h5>
-                  <p class="card-text">19 total orders made.</p>
+                  <p class="card-text">{{ total_order }} total orders made.</p>
                 </div>
               </div>
             </div>
@@ -18,7 +18,7 @@
               <div class="card alert alert-success">
                 <div class="card-body">
                   <h5 class="card-title">Orders Delivered</h5>
-                  <p class="card-text">7 orders delivered.</p>
+                  <p class="card-text">{{ delivered }} orders delivered.</p>
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="card alert alert-warning">
                   <div class="card-body">
                     <h5 class="card-title">Orders Pending</h5>
-                    <p class="card-text">12 orders pening delivery.</p>        
+                    <p class="card-text">{{ pending }} orders pening delivery.</p>        
                   </div>
                 </div>
               </div>
@@ -45,34 +45,20 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>Firstname</th>
                           <th>Lastname</th>
                           <th>Email</th>
                           <th>Orders</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>John</td>
-                          <td>Doe</td>
-                          <td>john@example.com</td>
-                          <td>7</td>
-                          <td><a href="#" class="btn btn-primary">view</a></td>
-                        </tr>
-                        <tr>
-                          <td>Mary</td>
-                          <td>Moe</td>
-                          <td>mary@example.com</td>
-                          <td>7</td>
-                          <td><a href="#" class="btn btn-primary">view</a></td>
-                        </tr>
-                        <tr>
-                          <td>July</td>
-                          <td>Dooley</td>
-                          <td>july@example.com</td>
-                          <td>7</td>
-                          <td><a href="#" class="btn btn-primary">view</a></td>
-                        </tr>
+                        {% for customer in customers %}
+                            <tr>
+                              <td>{{ customer.name }}</td>
+                              <td>{{ customer.phone }}</td>
+                              <td>{{ customer.email }}</td>
+                              <td><a href="#" class="btn btn-warning">Update</a></td>
+                            </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
                 </center>
@@ -81,38 +67,29 @@
             <div class="col-sm-6" id="order-table">
               <center>
                   <h2>Orders</h2>
+                  <a class="btn btn-primary btn-sm btn-block" href="#">Add Order</a>
                   <table class="table table-striped">
                     <thead>
                       <tr>
                         <th>Product</th>
                         <th>Date Ordered</th>
                         <th>Status</th>
+                        <th>Customer</th>
                         <th>Update</th>
                         <th>Remove</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Product Name x</td>
-                        <td>26th March 2021</td>
-                        <td>Pending</td>
-                        <td><a href="#" class="btn btn-warning">Update</a></td>
-                        <td><a href="#" class="btn btn-danger">Remove</a></td>
-                      </tr>
-                      <tr>
-                          <td>Product Name x</td>
-                          <td>26th March 2021</td>
-                          <td>Pending</td>
+                      {% for order in orders %}
+                        <tr>
+                          <td>{{ order.product }}</td>
+                          <td>{{ order.date }}</td>
+                          <td>{{ order.status }}</td>
+                          <td>{{ order.customer }}</td>
                           <td><a href="#" class="btn btn-warning">Update</a></td>
                           <td><a href="#" class="btn btn-danger">Remove</a></td>
-                      </tr>
-                      <tr>
-                          <td>Product Name x</td>
-                          <td>26th March 2021</td>
-                          <td>Pending</td>
-                          <td><a href="#" class="btn btn-warning">Update</a></td>
-                          <td><a href="#" class="btn btn-danger">Remove</a></td>
-                      </tr>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
               </center>
