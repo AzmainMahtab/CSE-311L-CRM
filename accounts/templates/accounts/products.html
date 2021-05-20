@@ -1,0 +1,68 @@
+{% extends 'accounts/_base.html' %}
+{% load static %}
+{% block content %}
+
+      <!--GENERAL INFO STARTS-->
+
+      <div class="container" id="gereral-info">
+        <div class="row">
+            <div class="col-sm-4">
+                <form action="{% url 'products'}" method="POST">
+                    <div class="form-group">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add prduct</button>
+                  </form>
+            </div>
+            <div class="col-sm-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Mayer Dua General Store</h5>
+                  <p class="card-text">Email: mayerdowa@dashcrm.com</p>
+                  <p class="card-text">Phone: 08817284629374</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card alert alert-warning">
+                  <div class="card-body">
+                    <h5 class="card-title">Products Out of Stock</h5>
+                    <p class="card-text">11 product out of stock.</p>  
+                    <a href="#" class="btn btn-primary">Show</a>      
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--GENERAL INFO ENDS HERE-->
+
+      <!--CUSTOMER PRODUCTS-->
+      <div class="col-sm-12" id="order-table">
+        <center>
+            <h2>Product inventory</h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Date Of Entry</th>
+                  <th>Quantity</th>
+                  <th>Update</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for product in products %}
+                <tr>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.created }}</td>
+                  <td>{{ product.quantity }}</td>
+                  <td><a href="#" class="btn btn-warning">Update</a></td>
+                  <td><a href="#" class="btn btn-danger">Remove</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </center>
+    </div>
+{% endblock %}

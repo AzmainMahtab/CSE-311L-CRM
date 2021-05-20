@@ -1,0 +1,128 @@
+{% extends 'accounts/_base.html' %}
+{% load static %}
+{% block content %}
+
+      <!--GENERAL INFO STARTS-->
+
+      <div class="container" id="gereral-info">
+        <div class="row">
+            <div class="col-sm-4">
+              <div class="card alert alert-primary">
+                <div class="card-body">
+                  <h5 class="card-title">Total Orders</h5>
+                  <p class="card-text">19 total orders made.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card alert alert-success">
+                <div class="card-body">
+                  <h5 class="card-title">Orders Delivered</h5>
+                  <p class="card-text">7 orders delivered.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card alert alert-warning">
+                  <div class="card-body">
+                    <h5 class="card-title">Orders Pending</h5>
+                    <p class="card-text">12 orders pening delivery.</p>        
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--GENERAL INFO ENDS HERE-->
+
+
+      <!--OVERVIEW TABLES-->
+
+      <div class="container">
+          <div class="row" id="overview">
+            <div class="col-sm-5" id="customer-table">
+                <center>
+                    <h2>Customers</h2>
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Firstname</th>
+                          <th>Lastname</th>
+                          <th>Email</th>
+                          <th>Orders</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>John</td>
+                          <td>Doe</td>
+                          <td>john@example.com</td>
+                          <td>7</td>
+                          <td><a href="#" class="btn btn-primary">view</a></td>
+                        </tr>
+                        <tr>
+                          <td>Mary</td>
+                          <td>Moe</td>
+                          <td>mary@example.com</td>
+                          <td>7</td>
+                          <td><a href="#" class="btn btn-primary">view</a></td>
+                        </tr>
+                        <tr>
+                          <td>July</td>
+                          <td>Dooley</td>
+                          <td>july@example.com</td>
+                          <td>7</td>
+                          <td><a href="#" class="btn btn-primary">view</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </center>
+            </div>
+  
+            <div class="col-sm-6" id="order-table">
+              <center>
+                  <h2>Orders</h2>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                        <th>Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Product Name x</td>
+                        <td>26th March 2021</td>
+                        <td>Pending</td>
+                        <td><a href="#" class="btn btn-warning">Update</a></td>
+                        <td><a href="#" class="btn btn-danger">Remove</a></td>
+                      </tr>
+                      <tr>
+                          <td>Product Name x</td>
+                          <td>26th March 2021</td>
+                          <td>Pending</td>
+                          <td><a href="#" class="btn btn-warning">Update</a></td>
+                          <td><a href="#" class="btn btn-danger">Remove</a></td>
+                      </tr>
+                      <tr>
+                          <td>Product Name x</td>
+                          <td>26th March 2021</td>
+                          <td>Pending</td>
+                          <td><a href="#" class="btn btn-warning">Update</a></td>
+                          <td><a href="#" class="btn btn-danger">Remove</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </center>
+          </div>
+          </div>
+          
+      </div>
+
+      <!--OVERVIEW TABLES END-->
+
+      {% endblock %}
+</body>
+</html>

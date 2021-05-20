@@ -1,0 +1,68 @@
+{% extends 'accounts/_base.html' %}
+{% load static %}
+{% block content %}
+      <!--GENERAL INFO STARTS-->
+
+      <div class="container" id="gereral-info">
+        <div class="row">
+            <div class="col-sm-4">
+              <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'customer' %}" method="POST">
+                        <div class="form-group">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Customer</button>
+                      </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Mayer Dua General Store</h5>
+                  <p class="card-text">Email: info@maerydua.com</p>
+                  <p class="card-text">Phone: 08817284629374</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card alert alert-warning">
+                  <div class="card-body">
+                    <h5 class="card-title">Orders Pending</h5>
+                    <p class="card-text">12 orders pening delivery.</p>        
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--GENERAL INFO ENDS HERE-->
+
+      <!--CUSTOMER PRODUCTS-->
+      <div class="col-sm-12" id="order-table">
+        <center>
+            <h2>Customer Table</h2>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Customer Nmae</th>
+                  <th>Phone</th>
+                  <th>E-mail</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for customer in customers %}
+                <tr>
+                  <td>{{ customer.name }}</td>
+                  <td>{{ customer.phone }}</td>
+                  <td>{{ customer.email }}</td>
+                  <td><a href="#" class="btn btn-warning">Update</a></td>
+                  <td><a href="#" class="btn btn-danger">Remove</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </center>
+    </div>
+{% endblock %}
