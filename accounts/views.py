@@ -112,5 +112,5 @@ def update_customer(request, pk):
             return redirect('customers')
     
 
-    return render(request, 'accounts/update_product.html', {'form': form, 'customer': customer})
+    return render(request, 'accounts/update_customer.html', {'form': form, 'customer': customer})
     
