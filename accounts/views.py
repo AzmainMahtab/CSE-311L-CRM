@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.expressions import OrderBy
 from django.shortcuts import redirect, render
-from .forms import CustomerForm, ProductForm
+from .forms import CustomerForm, ProductForm, OrderForm
 from .models import *
 
 # Create your views here.
@@ -59,6 +59,15 @@ def customer (request, pk):
 
     context = {
         'customer': customer,
-        'order': orders,
+        'orders': orders,
         }
     return render(request,'accounts/customer.html', context)
+
+def add_order (request):
+    if request.method == 'GET':
+        form = OrderForm(request.POST)
+        return render(request, 'accounts/add_order.html', {'form': form})
+    else:
+        form = OrderForm(request.POST)
+        form.save()
+        return redirect('home')

@@ -48,6 +48,7 @@
                           <th>Lastname</th>
                           <th>Email</th>
                           <th>Orders</th>
+                          <th>View</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -67,7 +68,7 @@
             <div class="col-sm-6" id="order-table">
               <center>
                   <h2>Orders</h2>
-                  <a class="btn btn-primary btn-sm btn-block" href="#">Add Order</a>
+                  <a class="btn btn-primary btn-sm btn-block" href="{% url 'add_order' %}">Add Order</a>
                   <table class="table table-striped">
                     <thead>
                       <tr>
