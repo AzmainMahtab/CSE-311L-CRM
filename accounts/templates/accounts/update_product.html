@@ -1,0 +1,21 @@
+{% extends 'accounts/_base.html' %}
+{% load static %}
+{% block content %}
+
+      <!--GENERAL INFO STARTS-->
+
+      <div class="container" id="gereral-info">
+        <div class="row">
+            <div class="col-sm-4">
+                <form action="{% url 'update_product' pk=product.id %}" method="POST">
+                    <div class="form-group">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update prduct</button>
+                  </form>
+      </div>
+      <!--GENERAL INFO ENDS HERE-->
+
+    </div>
+{% endblock %}

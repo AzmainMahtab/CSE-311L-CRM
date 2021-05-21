@@ -9,7 +9,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Customer Name: {{customer.name}}</h5>
                   <div class="d-grid gap-2">
-                    <button class="btn btn-outline-warning" type="button">Update Info</button>
+                    <a href="{% url 'update_customer' pk=customer.id %}"><button class="btn btn-outline-warning" type="button">Update Info</button></a>
                     <button class="btn btn-outline-danger" type="button">Remove Customer</button>
                   </div>
                 </div>

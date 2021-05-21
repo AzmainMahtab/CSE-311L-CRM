@@ -85,4 +85,32 @@ def update_order(request, pk):
     
 
     return render(request, 'accounts/update_order.html', {'form': form, 'order': order})
+
+def update_product(request, pk):
+    product = Product.objects.get(id=pk)
+    form = ProductForm(instance=product)
+
+    if request.method == 'POST':
+        product = Product.objects.get(id=pk)
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('products')
+    
+
+    return render(request, 'accounts/update_product.html', {'form': form, 'product': product})
+
+def update_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    form = CustomerForm(instance=customer)
+
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=pk)
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('customers')
+    
+
+    return render(request, 'accounts/update_product.html', {'form': form, 'customer': customer})
     

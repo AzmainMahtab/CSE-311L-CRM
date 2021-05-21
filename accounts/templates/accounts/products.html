@@ -7,7 +7,7 @@
       <div class="container" id="gereral-info">
         <div class="row">
             <div class="col-sm-4">
-                <form action="{% url 'products'}" method="POST">
+                <form action="{% url 'products' %}" method="POST">
                     <div class="form-group">
                       {% csrf_token %}
                       {{ form.as_p }}
@@ -57,7 +57,7 @@
                   <td>{{ product.name }}</td>
                   <td>{{ product.created }}</td>
                   <td>{{ product.price }}$</td>
-                  <td><a href="#" class="btn btn-warning">Update</a></td>
+                  <td><a href="{% url 'update_product' pk=product.id %}" class="btn btn-warning">Update</a></td>
                   <td><a href="#" class="btn btn-danger">Remove</a></td>
                 </tr>
                 {% endfor %}

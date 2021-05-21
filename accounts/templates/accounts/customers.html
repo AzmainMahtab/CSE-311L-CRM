@@ -59,7 +59,7 @@
                   <td>{{ customer.name }}</td>
                   <td>{{ customer.phone }}</td>
                   <td>{{ customer.email }}</td>
-                  <td><a href="#" class="btn btn-warning">Update</a></td>
+                  <td><a href="{% url 'update_customer' pk=customer.id %}" class="btn btn-warning">Update</a></td>
                   <td><a href="#" class="btn btn-danger">Remove</a></td>
                 </tr>
                 {% endfor %}
