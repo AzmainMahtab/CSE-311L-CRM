@@ -6,12 +6,12 @@
       <div class="container" id="gereral-info">
         <div class="card">
             <div class="card-body">
-                <form action="{% url 'add_order' %}" method="POST">
+                <form action="{% url 'update_order' pk=order.id %}" method="POST">
                     <div class="form-group">
                       {% csrf_token %}
                       {{ form.as_p }}
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Order</button>
+                    <button type="submit" class="btn btn-primary">Update Order</button>
                 </form>
             </div>
         </div>

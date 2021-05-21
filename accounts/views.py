@@ -71,3 +71,18 @@ def add_order (request):
         form = OrderForm(request.POST)
         form.save()
         return redirect('home')
+
+def update_order(request, pk):
+    order = Order.objects.get(id=pk)
+    form = OrderForm(instance=order)
+
+    if request.method == 'POST':
+        order = Order.objects.get(id=pk)
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    
+
+    return render(request, 'accounts/update_order.html', {'form': form, 'order': order})
+    
