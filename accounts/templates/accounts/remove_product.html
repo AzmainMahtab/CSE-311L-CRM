@@ -1,0 +1,20 @@
+{% extends 'accounts/_base.html' %}
+{% load static %}
+{% block content %}
+
+
+      <div class="container" id="gereral-info">
+        <div class="card">
+            <div class="card-body">
+                <h2>Remove "{{product}}" from products?</h2>
+                <form action="{% url 'remove_product' pk=product.id %}" method="POST">
+                    <div class="form-group">
+                      {% csrf_token %}
+                    </div>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Cancle</a>
+                    <button type="submit" class="btn btn-danger">Remove Products</button>
+                </form>
+            </div>
+        </div>
+      </div>
+{% endblock %}

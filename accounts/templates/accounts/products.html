@@ -58,7 +58,7 @@
                   <td>{{ product.created }}</td>
                   <td>{{ product.price }}$</td>
                   <td><a href="{% url 'update_product' pk=product.id %}" class="btn btn-warning">Update</a></td>
-                  <td><a href="#" class="btn btn-danger">Remove</a></td>
+                  <td><a href="{% url 'remove_product' pk=product.id %}" class="btn btn-danger">Remove</a></td>
                 </tr>
                 {% endfor %}
               </tbody>

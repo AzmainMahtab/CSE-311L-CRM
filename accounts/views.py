@@ -72,6 +72,9 @@ def add_order (request):
         form.save()
         return redirect('home')
 
+
+        ##### UPDATE FUCNTIONS ARE HERE #####
+
 def update_order(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -113,4 +116,27 @@ def update_customer(request, pk):
     
 
     return render(request, 'accounts/update_customer.html', {'form': form, 'customer': customer})
-    
+
+     ##### DELETE FUNCTIONS ARE HERE #####
+
+def remove_order(request, pk):
+    order = Order.objects.get(id=pk)
+    context = {'order': order}
+
+    if request.method == 'POST':
+        order = Order.objects.get(id=pk)
+        order.delete()
+        return redirect('home')
+
+    return render(request, 'accounts/remove_order.html', context)
+
+def remove_product(request, pk):
+    product = Product.objects.get(id=pk)
+    context = {'product': product}
+
+    if request.method == 'POST':
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return redirect('products')
+
+    return render(request, 'accounts/remove_product.html', context)
