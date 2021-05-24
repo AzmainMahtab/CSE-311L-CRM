@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models.expressions import OrderBy
 from django.shortcuts import redirect, render
-from .forms import CustomerForm, ProductForm, OrderForm
+from .forms import CustomerForm, ProductForm, OrderForm, CreateUserForm
+from django.contrib.auth.forms import UserCreationForm
 from .filters import OrderFilter
 from .models import *
 
@@ -163,4 +164,15 @@ def login(request):
     return render(request, 'accounts/login.html')
 
 def register(request):
-    return render(request, 'accounts/register.html')
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'accounts/register.html', context)
