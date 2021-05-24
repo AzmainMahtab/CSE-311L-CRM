@@ -156,3 +156,11 @@ def remove_customer(request, pk):
         return redirect('customers')
 
     return render(request, 'accounts/remove_customer.html', context)
+
+##### Authentications #####
+
+def login(request):
+    return render(request, 'accounts/login.html')
+
+def register(request):
+    return render(request, 'accounts/register.html')
