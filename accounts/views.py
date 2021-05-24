@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.expressions import OrderBy
 from django.shortcuts import redirect, render
 from .forms import CustomerForm, ProductForm, OrderForm
+from .filters import OrderFilter
 from .models import *
 
 # Create your views here.
@@ -57,9 +58,13 @@ def customer (request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
 
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
+
     context = {
         'customer': customer,
         'orders': orders,
+        'myFilter': myFilter,
         }
     return render(request,'accounts/customer.html', context)
 
@@ -140,3 +145,14 @@ def remove_product(request, pk):
         return redirect('products')
 
     return render(request, 'accounts/remove_product.html', context)
+
+def remove_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    context = {'customer': customer}
+
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=pk)
+        customer.delete()
+        return redirect('customers')
+
+    return render(request, 'accounts/remove_customer.html', context)
