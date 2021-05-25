@@ -7,11 +7,13 @@ from .filters import OrderFilter
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user, allowed_users, admin_only
 from .models import *
 
 # Create your views here.
 
 @login_required(login_url='login')
+@admin_only
 def home (request):
     customers = Customer.objects.all()
     orders = Order.objects.all()
@@ -40,6 +42,7 @@ def home (request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def products (request):
     if request.method == 'GET':
         form = ProductForm(request.POST)
@@ -52,6 +55,7 @@ def products (request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def customers (request):
     if request.method == 'GET':
         customers = Customer.objects.all()
@@ -65,6 +69,7 @@ def customers (request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def customer (request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
@@ -81,6 +86,7 @@ def customer (request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_order (request):
     if request.method == 'GET':
         form = OrderForm(request.POST)
@@ -95,6 +101,7 @@ def add_order (request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def update_order(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -111,6 +118,7 @@ def update_order(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
     form = ProductForm(instance=product)
@@ -127,6 +135,7 @@ def update_product(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def update_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     form = CustomerForm(instance=customer)
@@ -145,6 +154,7 @@ def update_customer(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def remove_order(request, pk):
     order = Order.objects.get(id=pk)
     context = {'order': order}
@@ -158,6 +168,7 @@ def remove_order(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def remove_product(request, pk):
     product = Product.objects.get(id=pk)
     context = {'product': product}
@@ -171,6 +182,7 @@ def remove_product(request, pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def remove_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     context = {'customer': customer}
@@ -183,41 +195,35 @@ def remove_customer(request, pk):
     return render(request, 'accounts/remove_customer.html', context)
 
 ##### Authentications #####
-
+@unauthenticated_user
 def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
-        if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
 
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request,"Username or password is incorrect")
-                return redirect('login')
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request,"Username or password is incorrect")
+            return redirect('login')
 
     return render(request, 'accounts/login.html')
 
+
+@unauthenticated_user
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
+    form = CreateUserForm()
 
-        form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'account was created successfuly')
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'account was created successfuly')
-
-                return redirect('login')
+            return redirect('login')
 
     context = {
         'form': form,
@@ -228,3 +234,6 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def userPage(request):
+    return render(request, 'accounts/user.html')
