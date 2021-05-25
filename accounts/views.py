@@ -6,10 +6,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .filters import OrderFilter
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .models import *
 
 # Create your views here.
 
+@login_required(login_url='login')
 def home (request):
     customers = Customer.objects.all()
     orders = Order.objects.all()
@@ -36,6 +38,8 @@ def home (request):
 
     return render(request,"accounts/index.html", context)
 
+
+@login_required(login_url='login')
 def products (request):
     if request.method == 'GET':
         form = ProductForm(request.POST)
@@ -46,6 +50,8 @@ def products (request):
         form.save()
         return redirect('products')
 
+
+@login_required(login_url='login')
 def customers (request):
     if request.method == 'GET':
         customers = Customer.objects.all()
@@ -57,6 +63,8 @@ def customers (request):
         form.save()
         return redirect('customers')
 
+
+@login_required(login_url='login')
 def customer (request, pk):
     customer = Customer.objects.get(id=pk)
     orders = customer.order_set.all()
@@ -71,6 +79,8 @@ def customer (request, pk):
         }
     return render(request,'accounts/customer.html', context)
 
+
+@login_required(login_url='login')
 def add_order (request):
     if request.method == 'GET':
         form = OrderForm(request.POST)
@@ -83,6 +93,8 @@ def add_order (request):
 
         ##### UPDATE FUCNTIONS ARE HERE #####
 
+
+@login_required(login_url='login')
 def update_order(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -97,6 +109,8 @@ def update_order(request, pk):
 
     return render(request, 'accounts/update_order.html', {'form': form, 'order': order})
 
+
+@login_required(login_url='login')
 def update_product(request, pk):
     product = Product.objects.get(id=pk)
     form = ProductForm(instance=product)
@@ -111,6 +125,8 @@ def update_product(request, pk):
 
     return render(request, 'accounts/update_product.html', {'form': form, 'product': product})
 
+
+@login_required(login_url='login')
 def update_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     form = CustomerForm(instance=customer)
@@ -127,6 +143,8 @@ def update_customer(request, pk):
 
      ##### DELETE FUNCTIONS ARE HERE #####
 
+
+@login_required(login_url='login')
 def remove_order(request, pk):
     order = Order.objects.get(id=pk)
     context = {'order': order}
@@ -138,6 +156,8 @@ def remove_order(request, pk):
 
     return render(request, 'accounts/remove_order.html', context)
 
+
+@login_required(login_url='login')
 def remove_product(request, pk):
     product = Product.objects.get(id=pk)
     context = {'product': product}
@@ -149,6 +169,8 @@ def remove_product(request, pk):
 
     return render(request, 'accounts/remove_product.html', context)
 
+
+@login_required(login_url='login')
 def remove_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     context = {'customer': customer}
@@ -163,34 +185,46 @@ def remove_customer(request, pk):
 ##### Authentications #####
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
 
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request,"Username or password is incorrect")
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request,"Username or password is incorrect")
+                return redirect('login')
 
     return render(request, 'accounts/login.html')
 
 def register(request):
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
 
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'account was created successfuly')
+        form = CreateUserForm()
 
-            return redirect('login')
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'account was created successfuly')
+
+                return redirect('login')
 
     context = {
         'form': form,
     }
 
     return render(request, 'accounts/register.html', context)
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

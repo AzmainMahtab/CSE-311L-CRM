@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.urls import path
 from . import views
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('remove_product/<str:pk>', views.remove_product, name="remove_product"),
     path('update_customer/<str:pk>', views.remove_customer, name="remove_customer"),
     path('login/', views.login_view, name="login"),
-    path('register/', views.register, name="register")
+    path('register/', views.register, name="register"),
+    path('logout/', views.logout_view, name="logout"),
     
 ]
